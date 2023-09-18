@@ -1,22 +1,19 @@
 import { notFound } from "next/navigation";
+import TicketData from "../../_data/db.json";
 
 export async function generateStaticParams() {
-  const res = await fetch("http://localhost:4000/tickets");
-  const tickets = await res.json();
+  const tickets = TicketData.tickets;
   return tickets.map((ticket) => ({ id: ticket.id }));
 }
 
 const getTickets = async (id) => {
-  const res = await fetch(`http://localhost:4000/tickets/${id}`, {
-    next: {
-      revalidate: 60,
-    },
-  });
+  const res = TicketData.tickets.filter((ticket) => ticket.id === id);
 
-  if (!res.ok) {
+  if (res === []) {
     notFound();
   }
-  return res.json();
+
+  return res[0];
 };
 export default async function TicketDetaials({ params }) {
   const ticket = await getTickets(params.id);

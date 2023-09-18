@@ -1,12 +1,8 @@
 import Link from "next/link";
+import TicketData from "../_data/db.json";
 
 const getTickets = async () => {
-  const res = await fetch("http://localhost:4000/tickets", {
-    next: {
-      revalidate: 0,
-    },
-  });
-  return res.json();
+  return TicketData.tickets;
 };
 
 export default async function TicketList() {

@@ -5,7 +5,6 @@ import { useState } from "react";
 
 export default function CreateForm() {
   const router = useRouter();
-
   const [title, setTitle] = useState("");
   const [body, setBody] = useState("");
   const [priority, setPriority] = useState("low");
@@ -16,17 +15,6 @@ export default function CreateForm() {
     setIsLoading(true);
 
     const ticket = { title, body, priority, user_email: "example@email.com" };
-
-    const res = await fetch("http://localhost:4000/tickets", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(ticket),
-    });
-
-    if (res.status === 201) {
-      router.refresh();
-      router.push("/tickets");
-    }
   };
 
   return (
@@ -56,10 +44,10 @@ export default function CreateForm() {
           <option value="high">High priority</option>
         </select>
       </label>
-      <button className="btn-primary" disabled={isLoading}>
-        {isLoading && <span>Adding...</span>}{" "}
-        {!isLoading && <span>Add Ticket</span>}
+      <button className="btn-disabled" disabled={true}>
+        {<span>Add Ticket</span>}{" "}
       </button>
+      <p>Sorry... Tickets cannot be added at this moment</p>
     </form>
   );
 }
